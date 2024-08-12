@@ -1,4 +1,4 @@
-# Android-Chatbot
+# Chatbot
 An interactive Python-based chatbot developed using tkinter for its GUI. This project aims to deliver a seamless conversational experience, enhanced by both predefined knowledge and dynamic learning capabilities.
 
 **Key Features:** </br>

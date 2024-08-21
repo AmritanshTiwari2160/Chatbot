@@ -15,7 +15,7 @@ class ChatBotUI:
             with open(self.knowledge_base_file, 'r') as file:
                 return json.load(file)
         except FileNotFoundError:
-            return {"intents": []}
+            return {"questions": []}
 
     # Saving The Response from the user Into the knowledge_base
     def save_knowledge_base(self):
@@ -24,42 +24,47 @@ class ChatBotUI:
 
     # Finding the best match for the question
     def find_best_match(self, user_question: str) -> str | None:
-        for intent in self.knowledge_base["intents"]:
-            matches = get_close_matches(user_question, intent["patterns"], n=1, cutoff=0.6)
-            if matches:
-                return intent["responses"]
+        questions = [q["question"] for q in self.knowledge_base["questions"]]
+        matches = get_close_matches(user_question, questions, n=1, cutoff=0.6)
+        return matches[0] if matches else None
+
+    # Getting the answer from the knowledge_base
+    def get_answer_for_question(self, question: str) -> str | None:
+        for q in self.knowledge_base["questions"]:
+            if q["question"] == question:
+                return q["answer"]
+
+    # Open the websites
+    def open_website(self, url: str):
+        webbrowser.open(url)
+
+    # Show About the App and The Developer
+    def show_about_app(self):
+        return "Immerse yourself in a dynamic interaction with 'ANDRO', an advanced chatbot designed to engage and evolve with your queries. ANDRO's modern and intuitive Streamlit interface ensures a seamless and sophisticated chatting experience, making every conversation effortless and enjoyable. As you interact with ANDRO, it learns from your input, continuously refining its responses and becoming a more knowledgeable assistant. Each exchange not only delivers immediate answers but also contributes to ANDRO's growth, enhancing its ability to assist you over time. Explore essential links and navigate the app's features with ease, as ANDRO provides you with valuable developer resources and insights. Whether you're seeking technical support or simply exploring new ideas, ANDRO is here to provide refined, effective assistance at every step."
+
+    def show_about_developer(self):
+        return "Developed by Amritansh Tiwari"
 
     # Main logic for processing user input
     def process_input(self, user_input: str):
         if user_input.lower() == 'quit':
             return "Goodbye!"
 
-        responses = self.find_best_match(user_input)
+        best_match = self.find_best_match(user_input)
 
-        if responses:
-            return f'Andro: {responses[0]}'
+        if best_match:
+            answer = self.get_answer_for_question(best_match)
+            return f'Andro: {answer}'
 
-        if 'teach_mode' in st.session_state and st.session_state.teach_mode:
-            new_answer = st.session_state.new_answer
+        else:
+            new_answer = st.text_input("Teach Me", "Type the answer or leave blank to skip:")
+
             if new_answer and new_answer.lower() != 'skip':
-                new_intent = {
-                    "tag": "new_intent",
-                    "patterns": [user_input],
-                    "responses": [new_answer],
-                    "context_set": ""
-                }
-                self.knowledge_base["intents"].append(new_intent)
+                self.knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
                 self.save_knowledge_base()
-                st.session_state.teach_mode = False  # End teaching mode
-                st.session_state.new_answer = ""  # Clear the input field
                 return 'Andro: Thank you, I learned a new response.'
 
             return 'Andro: I don\'t know the answer. Can you teach me?'
-
-        # Enable teaching mode
-        st.session_state.teach_mode = True
-        st.session_state.new_answer = ""  # Reset the answer field
-        return 'Andro: I don\'t know the answer. Can you teach me?'
 
     def run(self):
         st.title("ANDRO THE CHATBOT")
@@ -71,10 +76,6 @@ class ChatBotUI:
             if st.button("Send"):
                 response = self.process_input(user_input)
                 st.text_area("Chat", value=f"You: {user_input}\n{response}", height=300)
-
-            if 'teach_mode' in st.session_state and st.session_state.teach_mode:
-                new_answer = st.text_input("Teach Me", "Type the answer or leave blank to skip:")
-                st.session_state.new_answer = new_answer
         
         elif menu == "About":
             st.write(self.show_about_app())

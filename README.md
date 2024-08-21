@@ -10,7 +10,7 @@ An interactive Python-based chatbot developed using tkinter for its GUI. This pr
    
 **Technologies Used:** </br>
 Python: The primary programming language used, showcasing proficiency in Python programming.</br>
-Tkinter: A toolkit for GUI development, used to create an interactive interface, demonstrating skills in graphical user interface design.</br>
+Streamlit: A toolkit for GUI development, used to create an interactive interface, demonstrating skills in graphical user interface design.</br>
 JSON: Employed for data storage, maintaining the knowledge base and tracking user interactions.</br>
 Difflib: Used for string matching, enhancing the accuracy of responses.</br>
 Webbrowser: Integrated for website navigation within the chatbot interface, adding additional functionality.

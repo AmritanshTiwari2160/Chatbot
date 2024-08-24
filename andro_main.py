@@ -1,5 +1,6 @@
 import json
 import streamlit as st
+from PIL import Image
 from difflib import get_close_matches
 import webbrowser
 
@@ -34,10 +35,32 @@ class ChatBotUI:
         webbrowser.open(url)
 
     def show_about_app(self):
-        return "Immerse yourself in a dynamic interaction with 'ANDRO', an advanced chatbot designed to engage and evolve with your queries. ANDRO's modern and intuitive Streamlit interface ensures a seamless and sophisticated chatting experience, making every conversation effortless and enjoyable. As you interact with ANDRO, it learns from your input, continuously refining its responses and becoming a more knowledgeable assistant. Each exchange not only delivers immediate answers but also contributes to ANDRO's growth, enhancing its ability to assist you over time. Explore essential links and navigate the app's features with ease, as ANDRO provides you with valuable developer resources and insights. Whether you're seeking technical support or simply exploring new ideas, ANDRO is here to provide refined, effective assistance at every step."
+        gif_path = "Colour.gif" 
+        st.image(gif_path, caption="Welcome to ANDRO: The Chatbot!",width=410)
+        st.write("""
+#### 🚀Immerse yourself in a dynamic interaction with 'ANDRO':
+  - An advanced chatbot designed to engage and evolve with your queries. 🌟
 
+#### 🚀Modern and Intuitive Interface:
+  - Streamlit interface ensures a seamless and sophisticated chatting experience.
+  - Makes every conversation effortless and enjoyable.
+
+#### 🚀Continuous Learning and Improvement:
+  - ANDRO learns from your input, continuously refining its responses.
+  - Becomes a more knowledgeable assistant over time. ✨
+
+#### 🚀Growth and Enhancement:
+  - Each exchange delivers immediate answers and contributes to ANDRO’s growth.
+  - Enhances its ability to assist you over time. 🌱🔍
+
+#### 🚀Explore and Navigate Easily:
+  - Provides essential links and valuable developer resources and insights. 📚
+
+#### 🚀Effective Assistance:
+  - Whether seeking technical support or exploring new ideas, ANDRO offers refined and effective assistance at every step. 💡
+""")
     def show_about_developer(self):
-        return "Developed by Amritansh Tiwari"
+        return "*Developed by Amritansh Tiwari*"
 
     def process_input(self, user_input: str) -> str:
         if user_input.lower() == 'quit':
@@ -86,9 +109,9 @@ class ChatBotUI:
 
         elif menu == "Developer":
             st.write(self.show_about_developer())
-            st.write("Visit our GitHub: [https://github.com/AmritanshTiwari2160](https://github.com/AmritanshTiwari2160)")
-            st.write("Visit LeetCode: [https://leetcode.com/AmritanshTiwari_108](https://leetcode.com/AmritanshTiwari_108)")
-            st.write("Visit Student Portal: [https://student.gehu.ac.in/](https://student.gehu.ac.in/)")
+            st.write("#### GitHub: [https://github.com/AmritanshTiwari2160](https://github.com/AmritanshTiwari2160)")
+            st.write("#### LeetCode: [https://leetcode.com/AmritanshTiwari_108](https://leetcode.com/AmritanshTiwari_108)")
+            st.write("#### Student Portal: [https://student.gehu.ac.in/](https://student.gehu.ac.in/)")
 
 if __name__ == '__main__':
     chat_bot_ui = ChatBotUI()

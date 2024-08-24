@@ -11,7 +11,7 @@ An interactive Python-based chatbot developed using streamlit for its GUI. This 
    
 ## Technologies Used:
 - **Python:** The primary programming language used, showcasing proficiency in Python programming.
-- **Streamlit:** A toolkit for creating interactive web applications, demonstrating skills in building graphical user interfaces (GUI).
+- **Streamlit:** A toolkit for creating interactive web applications, demonstrating skills in building Python-based graphical user interfaces (GUI).
 - **JSON:** Employed for data storage, maintaining the knowledge base and tracking user interactions.
 - **Difflib:** Used for string matching, enhancing the accuracy of responses.
 - **Webbrowser:** Integrated for website navigation within the chatbot interface, adding additional functionality.

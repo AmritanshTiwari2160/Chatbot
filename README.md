@@ -1,5 +1,5 @@
 # Chatbot
-An interactive Python-based chatbot developed using Streamlit for its GUI. This project aims to deliver a seamless conversational experience, enhanced by both predefined knowledge and dynamic learning capabilities.
+An interactive Python-based chatbot developed using streamlit for its GUI. This project aims to deliver a seamless conversational experience, enhanced by both predefined knowledge and dynamic learning capabilities.
 
 ## Key Features: 
 1. **Natural Interaction:** Engage in conversations with ANDRO as if you were speaking to a human, with responses based on its extensive knowledge base.

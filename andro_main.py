@@ -9,36 +9,36 @@ class ChatBotUI:
         self.knowledge_base_file = knowledge_base_file
         self.knowledge_base = self.load_knowledge_base()
 
-    # Loading The Json File
+    # Loading the JSON file
     def load_knowledge_base(self) -> dict:
         try:
             with open(self.knowledge_base_file, 'r') as file:
                 return json.load(file)
         except FileNotFoundError:
-            return {"questions": []}
+            return {"intents": []}
 
-    # Saving The Response from the user Into the knowledge_base
+    # Saving the response into the knowledge_base
     def save_knowledge_base(self):
         with open(self.knowledge_base_file, 'w') as file:
             json.dump(self.knowledge_base, file, indent=2)
 
     # Finding the best match for the question
     def find_best_match(self, user_question: str) -> str | None:
-        questions = [q["question"] for q in self.knowledge_base["questions"]]
+        questions = [pattern for intent in self.knowledge_base["intents"] for pattern in intent["patterns"]]
         matches = get_close_matches(user_question, questions, n=1, cutoff=0.6)
         return matches[0] if matches else None
 
     # Getting the answer from the knowledge_base
     def get_answer_for_question(self, question: str) -> str | None:
-        for q in self.knowledge_base["questions"]:
-            if q["question"] == question:
-                return q["answer"]
+        for intent in self.knowledge_base["intents"]:
+            if question in intent["patterns"]:
+                return intent["responses"][0]  # Return the first response, you can enhance this by randomizing or selecting the best response.
 
-    # Open the websites
+    # Open websites
     def open_website(self, url: str):
         webbrowser.open(url)
 
-    # Show About the App and The Developer
+    # Show About the App and the Developer
     def show_about_app(self):
         return "Immerse yourself in a dynamic interaction with 'ANDRO', an advanced chatbot designed to engage and evolve with your queries. ANDRO's modern and intuitive Streamlit interface ensures a seamless and sophisticated chatting experience, making every conversation effortless and enjoyable. As you interact with ANDRO, it learns from your input, continuously refining its responses and becoming a more knowledgeable assistant. Each exchange not only delivers immediate answers but also contributes to ANDRO's growth, enhancing its ability to assist you over time. Explore essential links and navigate the app's features with ease, as ANDRO provides you with valuable developer resources and insights. Whether you're seeking technical support or simply exploring new ideas, ANDRO is here to provide refined, effective assistance at every step."
 
@@ -60,7 +60,12 @@ class ChatBotUI:
             new_answer = st.text_input("Teach Me", "Type the answer or leave blank to skip:")
 
             if new_answer and new_answer.lower() != 'skip':
-                self.knowledge_base["questions"].append({"question": user_input, "answer": new_answer})
+                self.knowledge_base["intents"].append({
+                    "tag": "new",
+                    "patterns": [user_input],
+                    "responses": [new_answer],
+                    "context_set": ""
+                })
                 self.save_knowledge_base()
                 return 'Andro: Thank you, I learned a new response.'
 

@@ -1,4 +1,4 @@
-# Chatbot
+# Python Chatbot using JSON
 An interactive Python-based chatbot developed using streamlit for its GUI. This project aims to deliver a seamless conversational experience, enhanced by both predefined knowledge and dynamic learning capabilities.
 
 ## Key Features: 
